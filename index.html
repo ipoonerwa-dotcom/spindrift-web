@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spindrift Technology Studio</title>
+<meta name="description" content="Spindrift Technology Studio builds innovative products for the Flap ecosystem. First work: 渡 · CROSSING.">
+<meta property="og:title" content="Spindrift Technology Studio">
+<meta property="og:description" content="Innovative products for the Flap ecosystem. First work: 渡 · CROSSING.">
+<meta property="og:image" content="assets/card.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #090909;
+    --paper: #efe6d4;
+    --paper-dim: rgba(239, 230, 212, 0.6);
+    --paper-faint: rgba(239, 230, 212, 0.13);
+    --light: #ffb347;
+    --serif: "Cormorant Garamond", "Noto Serif SC", "Songti SC", serif;
+    --serif-zh: "Noto Serif SC", "Songti SC", "Cormorant Garamond", serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink); color: var(--paper); font-family: var(--serif); font-size: 19px; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  html[data-lang="zh"] body { font-family: var(--serif-zh); font-size: 17px; line-height: 1.95; }
+  html[data-lang="en"] [lang="zh"], html[data-lang="zh"] [lang="en"] { display: none !important; }
+  img, video, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  ::selection { background: rgba(255, 179, 71, 0.35); }
+
+  /* the sea behind everything, the lamp that follows the pointer, a little film grain */
+  #sea { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  #lamp { position: fixed; left: 0; top: 0; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%; z-index: 2; pointer-events: none;
+          background: radial-gradient(circle, rgba(255, 179, 71, 0.11), rgba(255, 179, 71, 0.04) 35%, transparent 65%); mix-blend-mode: screen; opacity: 0; transition: opacity 0.6s; }
+  body::after { content: ""; position: fixed; inset: -50%; z-index: 3; pointer-events: none; opacity: 0.06;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+                animation: grain 1.2s steps(6) infinite; }
+  @keyframes grain { 0% { transform: translate(0, 0); } 33% { transform: translate(-3%, 2%); } 66% { transform: translate(2%, -3%); } 100% { transform: translate(0, 0); } }
+  main, nav, footer { position: relative; z-index: 4; }
+
+  nav { position: fixed; inset: 0 0 auto 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(16px, 4vw, 48px);
+        transition: background 0.5s, backdrop-filter 0.5s; }
+  nav.solid { background: rgba(9, 9, 9, 0.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  nav .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; letter-spacing: 0.32em; font-size: 14px; font-weight: 600; }
+  nav .brand img { width: 34px; }
+  nav .links { display: flex; align-items: center; gap: clamp(14px, 3vw, 34px); font-size: 14px; letter-spacing: 0.22em; }
+  nav .links a { position: relative; text-decoration: none; color: var(--paper-dim); transition: color 0.3s; }
+  nav .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--light); transform: scaleX(0); transform-origin: right; transition: transform 0.5s var(--ease); }
+  nav .links a:hover { color: var(--paper); }
+  nav .links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .lang { border: 1px solid var(--paper-faint); background: none; color: var(--paper-dim); font: inherit; letter-spacing: 0.15em; padding: 4px 12px; border-radius: 999px; cursor: pointer; transition: all 0.3s; }
+  .lang:hover { color: var(--paper); border-color: var(--light); }
+  @media (max-width: 680px) { nav .links a { display: none; } }
+
+  /* ---- hero: the wave is brushed in, the letters rise out of it ---- */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 16px 90px; }
+  .hero .mark { width: clamp(190px, 28vw, 330px); }
+  .hero h1 { margin: 26px 0 0; font-weight: 500; font-size: clamp(42px, 7.4vw, 82px); line-height: 1; letter-spacing: 0.3em; padding-left: 0.3em; display: flex; justify-content: center; }
+  .hero h1 span { display: inline-block; animation: letter 1s var(--ease) both; }
+  .hero .sub { margin-top: 18px; font-size: clamp(12px, 1.6vw, 16px); letter-spacing: 0.64em; padding-left: 0.64em; color: var(--paper-dim); animation: fade 1.2s ease both 2.55s; }
+  .hero .tag { margin-top: 46px; font-size: clamp(17px, 2vw, 22px); letter-spacing: 0.06em; animation: fade 1.4s ease both 2.95s; }
+  html[data-lang="en"] .hero .tag { font-style: italic; }
+  .hero .tag b { font-weight: 600; color: var(--light); font-style: normal; }
+  .cue { margin-top: 70px; width: 1px; height: 70px; background: linear-gradient(var(--paper-dim), transparent); animation: fade 1s ease both 3.4s, drip 2.6s ease-in-out infinite 3.4s; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0.2); opacity: 0; } 30% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+  @keyframes letter { from { opacity: 0; transform: translateY(0.45em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* the animations the brand marks use (the same as the game's opening) */
+  @keyframes brush { from { stroke-dashoffset: 1; opacity: 0; } 1% { opacity: 1; } to { stroke-dashoffset: 0; opacity: 1; } }
+  @keyframes bloom { from { transform: scale(0); opacity: 0; } 1% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
+  @keyframes ripple { 0% { transform: scale(0.45); opacity: 0; } 8% { opacity: 0.5; } 100% { transform: scale(1.6); opacity: 0; } }
+  @keyframes ignite { 0% { transform: scale(0.2); opacity: 0; } 55% { transform: scale(1.35); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes beam { 0% { transform: rotate(-34deg); opacity: 0; } 18% { opacity: 1; } 80% { opacity: 1; } 100% { transform: rotate(30deg); opacity: 0; } }
+  @keyframes breathe { 0%, 100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.12); } }
+  .wait * { animation-play-state: paused !important; }
+
+  section { padding: clamp(80px, 12vw, 160px) clamp(16px, 6vw, 80px); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .eyebrow { color: var(--light); font-size: 13px; letter-spacing: 0.44em; text-transform: uppercase; margin: 0 0 22px; }
+
+  /* ---- the manifesto, line by line ---- */
+  .manifesto { text-align: center; }
+  .manifesto .lines { font-size: clamp(30px, 5.2vw, 64px); line-height: 1.32; font-weight: 500; letter-spacing: 0.02em; }
+  html[data-lang="zh"] .manifesto .lines { font-size: clamp(21px, 4.4vw, 52px); letter-spacing: 0.08em; line-height: 1.6; }
+  .line { display: block; overflow: hidden; padding: 0.04em 0; }
+  .line > span { display: inline-block; transform: translateY(110%); transition: transform 1.3s var(--ease), color 1.3s; transition-delay: var(--d, 0s); }
+  .in .line > span, .line.in > span { transform: none; }
+  .manifesto .last > span { color: var(--light); font-style: italic; }
+  html[data-lang="zh"] .manifesto .last > span { font-style: normal; }
+  .manifesto .say { margin: 54px auto 0; max-width: 30em; color: var(--paper-dim); }
+
+  /* ---- what we make ---- */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.4vw, 32px); margin-top: 40px; }
+  .pillar { position: relative; padding: 34px 30px 38px; border: 1px solid var(--paper-faint); border-radius: 4px; background: rgba(9, 9, 9, 0.55);
+            transition: transform 0.8s var(--ease), border-color 0.8s, background 0.8s; overflow: hidden; }
+  .pillar::before { content: ""; position: absolute; inset: auto -40% -60% -40%; height: 120%; background: radial-gradient(ellipse at 50% 100%, rgba(255, 179, 71, 0.16), transparent 60%); opacity: 0; transition: opacity 0.8s; }
+  .pillar:hover { transform: translateY(-8px); border-color: rgba(255, 179, 71, 0.4); }
+  .pillar:hover::before { opacity: 1; }
+  .pillar .no { font-size: 15px; letter-spacing: 0.3em; color: var(--light); }
+  .pillar h3 { position: relative; margin: 20px 0 14px; font-size: clamp(24px, 2.4vw, 30px); font-weight: 500; line-height: 1.3; }
+  .pillar p { position: relative; margin: 0; color: var(--paper-dim); }
+  @media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
+
+  /* ---- the first work ---- */
+  .work h2 { font-weight: 500; font-size: clamp(32px, 4.6vw, 52px); margin: 0 0 28px; letter-spacing: 0.06em; line-height: 1.2; }
+  .key { position: relative; border-radius: 4px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; }
+  .key > img { position: absolute; inset: -6% 0; width: 100%; height: 112%; object-fit: cover; filter: brightness(0.38) saturate(0.9); will-change: transform; }
+  .key::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9, 9, 9, 0.05) 25%, rgba(9, 9, 9, 0.78) 70%); }
+  .key .du { position: absolute; z-index: 1; right: 8%; top: 50%; transform: translateY(-52%); width: min(30%, 330px); overflow: visible; }
+  .key .words { position: absolute; z-index: 1; right: 8%; width: min(30%, 330px); bottom: 9%; text-align: center; opacity: 0; transition: opacity 1.4s ease 0.2s; }
+  .key.drawn.lit .words { opacity: 1; }                 /* only when 渡 was drawn here; the fallback picture has its own words */
+  .key .words .zh { font-family: var(--serif-zh); font-size: clamp(14px, 1.9vw, 24px); letter-spacing: 0.9em; padding-left: 0.9em; }
+  .key .words .en { font-size: clamp(10px, 1.1vw, 14px); letter-spacing: 0.9em; padding-left: 0.9em; color: var(--paper-dim); margin-top: 6px; }
+  .film { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(28px, 5vw, 72px); margin-top: clamp(36px, 5vw, 60px); align-items: start; }
+  .film p { margin: 0 0 1.1em; color: var(--paper-dim); }
+  .film p.lead { color: var(--paper); font-size: 1.12em; }
+  .facts { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--paper-faint); }
+  .facts li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--paper-faint); }
+  .facts li span:first-child { color: var(--paper-dim); }
+  .facts .num { font-variant-numeric: tabular-nums; }
+  .soon { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 9px 20px; border: 1px solid rgba(255, 179, 71, 0.5); color: var(--light); border-radius: 999px; letter-spacing: 0.2em; font-size: 14px; }
+  .soon i { width: 7px; height: 7px; border-radius: 50%; background: var(--light); box-shadow: 0 0 12px var(--light); animation: breathe 2.2s ease-in-out infinite; }
+  .opening { margin: clamp(60px, 9vw, 110px) 0 0; }
+  .opening video { width: 100%; border-radius: 4px; background: #000; }
+  figcaption { margin-top: 12px; color: var(--paper-dim); font-size: 15px; letter-spacing: 0.08em; }
+  @media (max-width: 820px) {
+    .film { grid-template-columns: 1fr; }
+    .key { aspect-ratio: 4 / 5; }
+    .key::after { background: linear-gradient(rgba(9, 9, 9, 0.25), rgba(9, 9, 9, 0.82)); }
+    .key .du { right: 50%; transform: translate(50%, -60%); width: 54%; }
+    .key .words { right: 50%; transform: translateX(50%); width: 80%; bottom: 10%; }
+  }
+
+  /* ---- stills on a strip of film that slides as you scroll ---- */
+  .strip { padding: 0; }
+  .strip .head { padding: 0 clamp(16px, 6vw, 80px); }
+  .strip .rail { height: 300vh; position: relative; }
+  .strip .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .strip .row { display: flex; gap: clamp(16px, 2vw, 28px); padding: 0 clamp(16px, 6vw, 80px); will-change: transform; }
+  .strip figure { margin: 0; flex: 0 0 auto; width: min(62vw, 820px); }
+  .strip .ph { overflow: hidden; border-radius: 3px; aspect-ratio: 16 / 9; background: #000; }
+  .strip img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 1.6s var(--ease), filter 1.6s; filter: brightness(0.82) grayscale(0.15); }
+  .strip figure:hover img { transform: scale(1.02); filter: brightness(1) grayscale(0); }
+  .strip .count { margin-top: 26px; padding: 0 clamp(16px, 6vw, 80px); color: var(--paper-dim); font-size: 14px; letter-spacing: 0.3em; }
+  .strip .bar { height: 1px; background: var(--paper-faint); margin-top: 10px; }
+  .strip .bar i { display: block; height: 100%; width: 0; background: var(--light); }
+  @media (max-width: 760px) {
+    .strip .rail { height: auto; }
+    .strip .stage { position: static; height: auto; padding: 30px 0 80px; }
+    .strip .row { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; transform: none !important; }
+    .strip figure { width: 84vw; scroll-snap-align: center; }
+    .strip .count { display: none; }
+  }
+
+  /* ---- the studio, the name ---- */
+  .studio .cols { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(28px, 6vw, 90px); align-items: center; }
+  .studio .cols svg, .studio .cols img { width: min(100%, 400px); justify-self: center; }
+  .studio p { color: var(--paper-dim); margin: 0 0 1.2em; }
+  .studio p.lead { color: var(--paper); font-size: clamp(22px, 2.4vw, 28px); line-height: 1.5; }
+  @media (max-width: 820px) { .studio .cols { grid-template-columns: 1fr; } .studio .cols svg, .studio .cols img { width: 230px; } }
+
+  .contact dl { display: grid; grid-template-columns: max-content 1fr; gap: 16px 44px; margin: 0; font-size: 1.1em; }
+  .contact dt { color: var(--paper-dim); letter-spacing: 0.24em; }
+  .contact dd { margin: 0; }
+  footer { padding: 46px clamp(16px, 6vw, 80px); border-top: 1px solid var(--paper-faint); color: var(--paper-dim); font-size: 14px; letter-spacing: 0.12em; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* reveal on scroll, only once the script runs */
+  .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity 1.2s ease, transform 1.2s var(--ease); transition-delay: var(--d, 0s); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; transition-duration: 0.001s !important; }
+    .beam, .ripple { display: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="sea" aria-hidden="true"></canvas>
+<div id="lamp" aria-hidden="true"></div>
+
+<nav id="nav">
+  <a class="brand" href="#top"><img src="assets/mark.svg" alt="">SPINDRIFT</a>
+  <div class="links">
+    <a href="#work"><span lang="en">WORK</span><span lang="zh">作品</span></a>
+    <a href="#studio"><span lang="en">STUDIO</span><span lang="zh">关于</span></a>
+    <a href="#contact"><span lang="en">CONTACT</span><span lang="zh">联系</span></a>
+    <button class="lang" type="button" id="lang"><span lang="en">中文</span><span lang="zh">EN</span></button>
+  </div>
+</nav>
+
+<main>
+<header class="hero" id="top">
+  <div class="mark" id="heroMark"><img src="assets/mark.svg" alt="Spindrift Technology Studio"></div>
+  <h1 aria-label="SPINDRIFT"><span>S</span><span>P</span><span>I</span><span>N</span><span>D</span><span>R</span><span>I</span><span>F</span><span>T</span></h1>
+  <div class="sub">TECHNOLOGY STUDIO</div>
+  <p class="tag">
+    <span lang="en">Innovative products for the <b>Flap</b> ecosystem.</span>
+    <span lang="zh">致力于制作 <b>Flap</b> 生态上的创新产品</span>
+  </p>
+  <div class="cue"></div>
+</header>
+
+<section class="manifesto">
+  <div class="wrap">
+    <div class="lines" lang="en">
+      <span class="line reveal-line"><span style="--d:0s">Every chart is a sea.</span></span>
+      <span class="line reveal-line"><span style="--d:.18s">Most people only ever see the waves.</span></span>
+      <span class="line reveal-line"><span style="--d:.36s">We make things for the people inside them.</span></span>
+      <span class="line reveal-line last"><span style="--d:.6s">On Flap.</span></span>
+    </div>
+    <div class="lines" lang="zh">
+      <span class="line reveal-line"><span style="--d:0s">每一根 K 线，都是一片海。</span></span>
+      <span class="line reveal-line"><span style="--d:.18s">大多数人，只看得见浪。</span></span>
+      <span class="line reveal-line"><span style="--d:.36s">我们为浪里的人，做东西。</span></span>
+      <span class="line reveal-line last"><span style="--d:.6s">在 Flap 上。</span></span>
+    </div>
+  </div>
+</section>
+
+<section class="make">
+  <div class="wrap">
+    <p class="eyebrow reveal"><span lang="en">What we make</span><span lang="zh">我们做什么</span></p>
+    <div class="pillars">
+      <article class="pillar reveal" style="--d:0s">
+        <div class="no">01</div>
+        <h3><span lang="en">Stories you can play</span><span lang="zh">能玩的故事</span></h3>
+        <p><span lang="en">Interactive films that live inside Flap: pictures, sound and voice, with every choice in the player's hands.</span><span lang="zh">住在 Flap 里的互动影视：画面、声音、配音，每一个选择都交给玩家。</span></p>
+      </article>
+      <article class="pillar reveal" style="--d:.15s">
+        <div class="no">02</div>
+        <h3><span lang="en">Play that outlasts the pump</span><span lang="zh">比一根阳线活得更久</span></h3>
+        <p><span lang="en">Products built so the fun runs longer than the first candle, where the token and the experience move forward together.</span><span lang="zh">让好玩比第一根阳线活得更久，让代币和体验一起往前走。</span></p>
+      </article>
+      <article class="pillar reveal" style="--d:.3s">
+        <div class="no">03</div>
+        <h3><span lang="en">Made by hand</span><span lang="zh">一笔一画</span></h3>
+        <p><span lang="en">Art, music, voice and code, all made in-house, down to the last brushstroke.</span><span lang="zh">画面、音乐、配音和代码，都自己做，细到最后一笔。</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="wrap">
+    <p class="eyebrow reveal"><span lang="en">First work</span><span lang="zh">首部作品</span></p>
+    <div class="key reveal" id="key">
+      <img src="assets/stills/P0-02.webp" alt="" id="keyImg">
+      <div class="du" id="du"><img src="assets/du.svg" alt="渡 · 在灯塔上岸 · CROSSING"></div>
+      <div class="words" aria-hidden="true"><div class="zh">在灯塔上岸</div><div class="en">CROSSING</div></div>
+    </div>
+    <div class="film">
+      <div class="reveal">
+        <h2><span lang="en">渡 · Crossing</span><span lang="zh">《渡》在灯塔上岸</span></h2>
+        <p class="lead">
+          <span lang="en">At midnight on New Year's Eve, Chen Du loses everything he made in four years of trading. By morning he has sent his worst address to a studio called Lighthouse.</span>
+          <span lang="zh">跨年夜零点，陈渡输光了四年攒下的一切。第二天早上，他把亏得最惨的那个地址，发给了一个叫「灯塔」的工作室。</span>
+        </p>
+        <p>
+          <span lang="en">In the months that follow he learns to read the chain from a man everyone calls the Captain, and has to decide which side of it he wants to stand on. Some choices cost everything; some cost nothing and still change who he becomes.</span>
+          <span lang="zh">接下来的几个月，他跟着船长学会读懂链上的每一笔账，也要决定自己站在哪一边。有的选择会让你归零，有的一分钱不花，却决定了他会变成什么样的人。</span>
+        </p>
+        <p>
+          <span lang="en">An interactive film made to be played inside Flap, told across two timelines: the bull run of 2021 and the chain of 2026.</span>
+          <span lang="zh">一部做在 Flap 里、可以玩的互动影视，两条时间线交织：2021 年的牛市，和 2026 年的链上。</span>
+        </p>
+      </div>
+      <div class="reveal" style="--d:.15s">
+        <ul class="facts">
+          <li><span><span lang="en">Chapters</span><span lang="zh">章节</span></span><span class="num" data-count="8">8</span></li>
+          <li><span><span lang="en">Endings</span><span lang="zh">结局</span></span><span class="num" data-count="9">9</span></li>
+          <li><span><span lang="en">Voiced lines</span><span lang="zh">配音</span></span><span class="num" data-count="2437">2437</span></li>
+          <li><span><span lang="en">Languages</span><span lang="zh">语言</span></span><span><span lang="en">Chinese, English</span><span lang="zh">中文、英文</span></span></li>
+        </ul>
+        <span class="soon"><i></i><span lang="en">COMING TO FLAP</span><span lang="zh">即将登陆 FLAP</span></span>
+      </div>
+    </div>
+    <figure class="opening reveal">
+      <video controls playsinline preload="none" poster="assets/opening-poster.jpg" src="assets/opening.mp4"></video>
+      <figcaption><span lang="en">The opening. Sound on.</span><span lang="zh">开场，请打开声音。</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="strip" id="stills">
+  <div class="head wrap"><p class="eyebrow reveal"><span lang="en">Stills</span><span lang="zh">剧照</span></p></div>
+  <div class="rail" id="rail">
+    <div class="stage">
+      <div class="row" id="row">
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/P0-08.webp" alt=""></div><figcaption><span lang="en">New Year's morning. The curtains open.</span><span lang="zh">元旦早上，窗帘拉开了。</span></figcaption></figure>
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/C1-P06.webp" alt=""></div><figcaption><span lang="en">2021. Lin Wan waits with two milk teas.</span><span lang="zh">2021 年，林晚拿着两杯奶茶等他。</span></figcaption></figure>
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/C2-P11.webp" alt=""></div><figcaption><span lang="en">His father's old taxi.</span><span lang="zh">父亲的旧出租车。</span></figcaption></figure>
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/C3-P17.webp" alt=""></div><figcaption><span lang="en">The Captain pours the tea.</span><span lang="zh">船长倒茶。</span></figcaption></figure>
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/C4-P03.webp" alt=""></div><figcaption><span lang="en">Winter. Red light.</span><span lang="zh">冬天，红灯。</span></figcaption></figure>
+        <figure><div class="ph"><img loading="lazy" src="assets/stills/C5-P13.webp" alt=""></div><figcaption><span lang="en">The night Lighthouse celebrates.</span><span lang="zh">灯塔庆功的那一夜。</span></figcaption></figure>
+      </div>
+      <div class="count"><span id="countNo">01</span> / 06<div class="bar"><i id="bar"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="studio" id="studio">
+  <div class="wrap cols">
+    <div class="reveal" id="studioMark"><img src="assets/mark.svg" alt=""></div>
+    <div class="reveal" style="--d:.15s">
+      <p class="eyebrow"><span lang="en">The studio</span><span lang="zh">关于我们</span></p>
+      <p class="lead">
+        <span lang="en">Spindrift is the spray the wind lifts off a breaking wave: the small, bright part of something vast.</span>
+        <span lang="zh">Spindrift，是浪头被风吹起的那一点飞沫，巨浪里最小、最亮的那一点。</span>
+      </p>
+      <p>
+        <span lang="en">Spindrift Technology Studio is an independent team dedicated to building innovative products for the Flap ecosystem. Our first, CROSSING, is an interactive film about the chain, told from inside it.</span>
+        <span lang="zh">Spindrift Technology Studio 是一支独立团队，致力于制作 Flap 生态上的创新产品。首部作品《渡》，是一部从链上讲链上的互动影视。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="eyebrow reveal"><span lang="en">Contact</span><span lang="zh">联系</span></p>
+    <dl class="reveal">
+      <dt>X</dt><dd><span lang="en">Coming soon</span><span lang="zh">即将开放</span></dd>
+      <dt>EMAIL</dt><dd><span lang="en">Coming soon</span><span lang="zh">即将开放</span></dd>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>© 2026 Spindrift Technology Studio</span>
+  <span>Built for Flap · CROSSING · 渡</span>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---- language: what the reader picked last time, else what their browser speaks ----
+  var saved = null;
+  try { saved = localStorage.getItem("spindrift-lang"); } catch (e) {}
+  var lang = saved || ((navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh" : "en");
+  var setLang = function (l) { root.setAttribute("data-lang", l); root.setAttribute("lang", l === "zh" ? "zh-CN" : "en"); };
+  setLang(lang);
+  document.getElementById("lang").addEventListener("click", function () {
+    lang = lang === "zh" ? "en" : "zh";
+    setLang(lang);
+    try { localStorage.setItem("spindrift-lang", lang); } catch (e) {}
+  });
+  root.classList.add("js");
+
+  // ---- the hero letters rise one after another, after the wave ----
+  document.querySelectorAll(".hero h1 span").forEach(function (s, i) { s.style.animationDelay = (1.85 + i * 0.07) + "s"; });
+
+  // ---- the marks, drawn in with a brush (same paths and timing as the game's opening) ----
+  var anim = function (name, dur, at, ease) { return "animation:" + name + " " + dur + "s " + (ease || "cubic-bezier(.45,0,.2,1)") + " " + at + "s both;"; };
+  var grow = function (dur, at) { return anim("bloom", dur, at, "cubic-bezier(.2,.7,.2,1)") + "transform-box:fill-box;transform-origin:center;"; };
+  var len = function (d) { var p = d.match(/-?\d+(\.\d+)?/g).map(Number), n = 0; for (var i = 2; i < p.length; i += 2) n += Math.hypot(p[i] - p[i - 2], p[i + 1] - p[i - 1]); return n; };
+  var uid = 0;
+  function waveSvg(B, at) {
+    var w = B.wave, id = "w" + (uid++), pad = 'maskUnits="userSpaceOnUse" x="-200" y="-200" width="' + (w.w + 400) + '" height="' + (w.h + 400) + '"';
+    var masks = '<mask id="' + id + 'b" ' + pad + '><path d="' + w.spine + '" fill="none" stroke="#fff" stroke-width="390" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1" style="' + anim("brush", 1.35, at) + '"/></mask>';
+    var petals = "";
+    w.petals.forEach(function (p, i) {
+      masks += '<mask id="' + id + "p" + i + '" ' + pad + '><circle cx="' + p.c[0] + '" cy="' + p.c[1] + '" r="' + p.c[2] + '" fill="#fff" style="' + grow(0.5, at + 1 + i * 0.12) + '"/></mask>';
+      petals += '<path d="' + p.d + '" mask="url(#' + id + "p" + i + ')"/>';
+    });
+    return '<svg viewBox="0 0 ' + w.w + " " + w.h + '" aria-hidden="true"><defs>' + masks + '</defs><g fill="#efe6d4"><path d="' + w.body + '" mask="url(#' + id + 'b)"/>' + petals + "</g></svg>";
+  }
+  function duSvg(B) {
+    var d = B.du, id = "d" + (uid++), top = 140, lx = B.light[0] - B.duAt[0], ly = B.light[1] - B.duAt[1];
+    var pad = 'maskUnits="userSpaceOnUse" x="-300" y="-300" width="' + (d.w + 600) + '" height="' + (d.h + 600) + '"';
+    var t = 1.05, brush = "", masks = "", drops = "", rings = "";
+    d.strokes.forEach(function (s, i) {
+      var last = i === d.strokes.length - 1, dur = last ? 0.8 : Math.min(0.45, Math.max(0.12, len(s.d) / 2300));
+      brush += '<path d="' + s.d + '" fill="none" stroke="#fff" stroke-width="' + s.w + '" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1" style="' + anim("brush", dur, t, "cubic-bezier(.3,0,.25,1)") + '"/>';
+      t += dur + 0.05;
+    });
+    d.drops.forEach(function (p, i) {
+      masks += '<mask id="' + id + "d" + i + '" ' + pad + '><circle cx="' + p.c[0] + '" cy="' + p.c[1] + '" r="' + p.c[2] + '" fill="#fff" style="' + grow(0.6, 0.2 + i * 0.26) + '"/></mask>';
+      drops += '<path d="' + p.d + '" mask="url(#' + id + "d" + i + ')"/>';
+      rings += '<circle class="ripple" cx="' + p.c[0] + '" cy="' + p.c[1] + '" r="' + p.c[2] * 0.8 + '" style="' + anim("ripple", 1.3, 0.25 + i * 0.26, "ease-out") + 'transform-box:fill-box;transform-origin:center;"/>';
+    });
+    masks += '<mask id="' + id + 'b" ' + pad + ">" + brush + '<rect x="-300" y="-300" width="' + (d.w + 600) + '" height="' + (d.h + 600) + '" fill="#fff" style="' + anim("fade", 0.35, t, "ease") + '"/></mask>';
+    var lit = t + 0.25, beam = "";
+    [[360, 0.32], [210, 0.45], [90, 0.6]].forEach(function (b) { beam += '<polygon points="' + lx + "," + ly + " " + (lx - 3200) + "," + (ly - b[0]) + " " + (lx - 3200) + "," + (ly + b[0]) + '" fill="url(#' + id + 'l)" opacity="' + b[1] + '"/>'; });
+    var svg = '<svg viewBox="0 ' + -top + " " + d.w + " " + (d.h + top) + '" style="overflow:visible" aria-label="渡"><defs>' +
+      '<radialGradient id="' + id + 'g"><stop offset="0" stop-color="#fff6d8"/><stop offset=".22" stop-color="#ffb347" stop-opacity=".95"/><stop offset="1" stop-color="#ff8a00" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="' + id + 'l" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#ffd89a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd89a" stop-opacity="0"/></linearGradient>' + masks + "</defs>" +
+      '<g fill="none" stroke="#efe6d4" stroke-width="4">' + rings + "</g>" +
+      '<g fill="#efe6d4">' + drops + '<path d="' + d.body + '" mask="url(#' + id + 'b)"/></g>' +
+      '<g class="beam" style="' + anim("beam", 2.4, lit + 0.3, "ease-in-out") + "transform-origin:" + lx + "px " + ly + 'px;mix-blend-mode:screen">' + beam + "</g>" +
+      '<g style="' + anim("ignite", 0.9, lit, "ease-out") + 'transform-box:fill-box;transform-origin:center;"><circle cx="' + lx + '" cy="' + ly + '" r="70" fill="url(#' + id + 'g)"/>' +
+      '<circle cx="' + lx + '" cy="' + ly + '" r="70" fill="url(#' + id + 'g)" style="animation:breathe 3.2s ease-in-out infinite ' + (lit + 1) + 's;transform-box:fill-box;transform-origin:center;"/></g></svg>';
+    return { svg: svg, lit: lit };
+  }
+  var duLit = 5.2;
+  fetch("assets/brand.json").then(function (r) { return r.json(); }).then(function (B) {
+    document.getElementById("heroMark").innerHTML = waveSvg(B, 0.3);
+    var sm = document.getElementById("studioMark");
+    sm.classList.add("wait");
+    sm.innerHTML = waveSvg(B, 0.2);
+    var du = duSvg(B), box = document.getElementById("du");
+    duLit = du.lit;
+    box.classList.add("wait");
+    box.innerHTML = du.svg;
+    document.getElementById("key").classList.add("drawn");
+  }).catch(function () { /* the plain pictures stay */ });
+
+  // ---- reveals, and the marks that wait for their section to come into view ----
+  var play = function (el) {
+    if (el.id === "key") {
+      var box = document.getElementById("du");
+      box.classList.remove("wait");
+      setTimeout(function () { el.classList.add("lit"); }, still ? 0 : (duLit + 0.4) * 1000);
+      countUp();
+    }
+    if (el.id === "studioMark") el.classList.remove("wait");
+  };
+  var targets = document.querySelectorAll(".reveal, .reveal-line");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("in");
+        play(e.target);
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    targets.forEach(function (el) { io.observe(el); });
+  } else targets.forEach(function (el) { el.classList.add("in"); play(el); });
+
+  // the numbers run up when the 渡 section arrives
+  var counted = false;
+  function countUp() {
+    if (counted) return;
+    counted = true;
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      var n = +el.getAttribute("data-count"), t0 = performance.now(), dur = still ? 1 : 1600;
+      (function step(t) {
+        var k = Math.min(1, (t - t0) / dur), v = Math.round(n * (1 - Math.pow(1 - k, 3)));
+        el.textContent = n > 999 ? v.toLocaleString("en-US") + (k === 1 ? "+" : "") : v;
+        if (k < 1) requestAnimationFrame(step);
+      })(t0);
+    });
+  }
+
+  // ---- the sea: slow lines that swell where the pointer is ----
+  var cv = document.getElementById("sea"), cx = cv.getContext("2d"), W = 0, H = 0, dpr = 1, mx = 0.5, my = 0.6, tmx = 0.5, tmy = 0.6, scrollY = 0;
+  function size() { dpr = Math.min(2, window.devicePixelRatio || 1); W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; }
+  size();
+  addEventListener("resize", size);
+  addEventListener("scroll", function () { scrollY = window.scrollY; }, { passive: true });
+  var N = innerWidth < 700 ? 9 : 15;
+  function sea(t) {
+    mx += (tmx - mx) * 0.05; my += (tmy - my) * 0.05;
+    cx.clearRect(0, 0, W, H);
+    var drift = scrollY * 0.0016;
+    for (var i = 0; i < N; i++) {
+      var k = i / (N - 1), y0 = H * (0.42 + k * 0.62), amp = (6 + k * 26) * dpr;
+      cx.beginPath();
+      for (var px = 0; px <= W + 8 * dpr; px += 8 * dpr) {
+        var u = px / W, near = Math.exp(-Math.pow((u - mx) * 3.2, 2)) * Math.exp(-Math.pow((k - (my - 0.4)) * 2.4, 2));
+        var y = y0 + Math.sin(u * 5.2 + t * 0.00028 * (1 + k * 0.6) + i * 0.9 + drift) * amp
+                   + Math.sin(u * 12.5 - t * 0.0005 + i * 1.7) * amp * 0.28
+                   - near * 34 * dpr * (0.6 + 0.4 * Math.sin(t * 0.002 + i));
+        if (px === 0) cx.moveTo(px, y); else cx.lineTo(px, y);
+      }
+      cx.strokeStyle = "rgba(239,230,212," + (0.025 + k * 0.075) + ")";
+      cx.lineWidth = dpr;
+      cx.stroke();
+    }
+    if (!still) requestAnimationFrame(sea);
+  }
+  requestAnimationFrame(sea);
+
+  // ---- a little lamp that follows the pointer (not on touch screens) ----
+  var lamp = document.getElementById("lamp"), lx = innerWidth / 2, ly = innerHeight / 2, tx = lx, ty = ly;
+  if (window.matchMedia && matchMedia("(pointer: fine)").matches && !still) {
+    addEventListener("pointermove", function (e) { tx = e.clientX; ty = e.clientY; tmx = e.clientX / innerWidth; tmy = e.clientY / innerHeight; lamp.style.opacity = 1; });
+    document.addEventListener("pointerleave", function () { lamp.style.opacity = 0; });
+    (function follow() { lx += (tx - lx) * 0.12; ly += (ty - ly) * 0.12; lamp.style.transform = "translate(" + lx + "px," + ly + "px)"; requestAnimationFrame(follow); })();
+  }
+
+  // ---- things that move with the scroll: the bar, the key art, the strip of stills ----
+  var nav = document.getElementById("nav"), key = document.getElementById("key"), keyImg = document.getElementById("keyImg");
+  var rail = document.getElementById("rail"), row = document.getElementById("row"), bar = document.getElementById("bar"), countNo = document.getElementById("countNo");
+  var wide = function () { return innerWidth > 760; };
+  function onScroll() {
+    nav.classList.toggle("solid", window.scrollY > 40);
+    if (still) return;
+    var r = key.getBoundingClientRect(), p = (innerHeight - r.top) / (innerHeight + r.height);
+    if (p > -0.2 && p < 1.2) keyImg.style.transform = "translateY(" + ((p - 0.5) * -8) + "%) scale(1.04)";
+    if (wide()) {
+      var rr = rail.getBoundingClientRect(), span = rail.offsetHeight - innerHeight, q = Math.min(1, Math.max(0, -rr.top / span));
+      var move = row.scrollWidth - innerWidth;
+      row.style.transform = "translateX(" + (-q * move) + "px)";
+      bar.style.width = (q * 100) + "%";
+      countNo.textContent = String(Math.min(6, 1 + Math.floor(q * 5.999))).padStart(2, "0");
+    }
+  }
+  addEventListener("scroll", function () { requestAnimationFrame(onScroll); }, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
