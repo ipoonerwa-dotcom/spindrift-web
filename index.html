@@ -52,6 +52,9 @@
   nav .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--light); transform: scaleX(0); transform-origin: right; transition: transform 0.5s var(--ease); }
   nav .links a:hover { color: var(--paper); }
   nav .links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  nav .links a.vault { border: 1px solid var(--paper-faint); background: none; padding: 4px 14px 4px calc(14px + 0.12em); border-radius: 999px; letter-spacing: 0.12em; line-height: 1.5; transition: color 0.3s, border-color 0.3s; }
+  nav .links a.vault::after { display: none; }
+  nav .links a.vault:hover { color: var(--paper); border-color: var(--light); }
   .lang { border: 1px solid var(--paper-faint); background: none; color: var(--paper-dim); font: inherit; letter-spacing: 0.15em; padding: 4px 12px; border-radius: 999px; cursor: pointer; transition: all 0.3s; }
   .lang:hover { color: var(--paper); border-color: var(--light); }
   @media (max-width: 680px) { nav .links a:not(.social) { display: none; } }
@@ -65,7 +68,9 @@
   .hero .tag { margin-top: 46px; font-size: clamp(17px, 2vw, 22px); letter-spacing: 0.06em; animation: fade 1.4s ease both 2.95s; }
   html[data-lang="en"] .hero .tag { font-style: italic; }
   .hero .tag b { font-weight: 600; color: var(--light); font-style: normal; }
-  .cue { margin-top: 70px; width: 1px; height: 70px; background: linear-gradient(var(--paper-dim), transparent); animation: fade 1s ease both 3.4s, drip 2.6s ease-in-out infinite 3.4s; transform-origin: top; }
+  .hero .vault { margin-top: 28px; display: inline-block; color: var(--light); font-size: clamp(16px, 1.8vw, 20px); letter-spacing: 0.16em; text-decoration: none; padding: 11px 28px 11px calc(28px + 0.16em); border: 1px solid rgba(255, 179, 71, 0.85); border-radius: 999px; background: rgba(255, 179, 71, 0.1); animation: fade 1.4s ease both 3.2s; transition: color 0.3s, background 0.3s, border-color 0.3s; }
+  .hero .vault:hover { color: var(--ink); background: var(--light); border-color: var(--light); }
+  .cue { margin-top: 36px; width: 1px; height: 70px; background: linear-gradient(var(--paper-dim), transparent); animation: fade 1s ease both 3.4s, drip 2.6s ease-in-out infinite 3.4s; transform-origin: top; }
   @keyframes drip { 0% { transform: scaleY(0.2); opacity: 0; } 30% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
   @keyframes letter { from { opacity: 0; transform: translateY(0.45em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -188,6 +193,7 @@
     <a href="#work"><span lang="en">WORK</span><span lang="zh">作品</span></a>
     <a href="#studio"><span lang="en">STUDIO</span><span lang="zh">关于</span></a>
     <a href="#contact"><span lang="en">CONTACT</span><span lang="zh">联系</span></a>
+    <a class="vault" href="https://flap.sh/bnb/0x1d628e104a110e02bdd91ea34e124278874f7777/taxinfo" target="_blank" rel="noopener noreferrer"><span lang="en">Play</span><span lang="zh">参与游戏</span></a>
     <a class="social" href="https://x.com/spindrift_flap" target="_blank" rel="noopener noreferrer">X</a>
     <button class="lang" type="button" id="lang"><span lang="en">中文</span><span lang="zh">EN</span></button>
   </div>
@@ -202,6 +208,7 @@
     <span lang="en">Innovative products for the <b>Flap</b> ecosystem.</span>
     <span lang="zh">致力于制作 <b>Flap</b> 生态上的创新产品</span>
   </p>
+  <a class="vault" href="https://flap.sh/bnb/0x1d628e104a110e02bdd91ea34e124278874f7777/taxinfo" target="_blank" rel="noopener noreferrer"><span lang="en">Play</span><span lang="zh">参与游戏</span></a>
   <div class="cue"></div>
 </header>
 
