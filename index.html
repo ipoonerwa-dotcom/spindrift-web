@@ -65,7 +65,9 @@
   .hero .tag { margin-top: 46px; font-size: clamp(17px, 2vw, 22px); letter-spacing: 0.06em; animation: fade 1.4s ease both 2.95s; }
   html[data-lang="en"] .hero .tag { font-style: italic; }
   .hero .tag b { font-weight: 600; color: var(--light); font-style: normal; }
-  .cue { margin-top: 70px; width: 1px; height: 70px; background: linear-gradient(var(--paper-dim), transparent); animation: fade 1s ease both 3.4s, drip 2.6s ease-in-out infinite 3.4s; transform-origin: top; }
+  .hero .vault { margin-top: 26px; color: var(--light); font-size: clamp(16px, 1.8vw, 20px); letter-spacing: 0.22em; padding-left: 0.22em; text-decoration: none; border-bottom: 1px solid rgba(255, 179, 71, 0.75); padding-bottom: 2px; animation: fade 1.4s ease both 3.2s; }
+  .hero .vault:hover { color: var(--paper); border-bottom-color: var(--paper); }
+  .cue { margin-top: 36px; width: 1px; height: 70px; background: linear-gradient(var(--paper-dim), transparent); animation: fade 1s ease both 3.4s, drip 2.6s ease-in-out infinite 3.4s; transform-origin: top; }
   @keyframes drip { 0% { transform: scaleY(0.2); opacity: 0; } 30% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
   @keyframes letter { from { opacity: 0; transform: translateY(0.45em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -188,6 +190,7 @@
     <a href="#work"><span lang="en">WORK</span><span lang="zh">作品</span></a>
     <a href="#studio"><span lang="en">STUDIO</span><span lang="zh">关于</span></a>
     <a href="#contact"><span lang="en">CONTACT</span><span lang="zh">联系</span></a>
+    <a href="https://flap.sh/bnb/0x1d628e104a110e02bdd91ea34e124278874f7777/taxinfo" target="_blank" rel="noopener noreferrer"><span lang="en">PLAY</span><span lang="zh">进入金库</span></a>
     <a class="social" href="https://x.com/spindrift_flap" target="_blank" rel="noopener noreferrer">X</a>
     <button class="lang" type="button" id="lang"><span lang="en">中文</span><span lang="zh">EN</span></button>
   </div>
@@ -202,6 +205,7 @@
     <span lang="en">Innovative products for the <b>Flap</b> ecosystem.</span>
     <span lang="zh">致力于制作 <b>Flap</b> 生态上的创新产品</span>
   </p>
+  <a class="vault" href="https://flap.sh/bnb/0x1d628e104a110e02bdd91ea34e124278874f7777/taxinfo" target="_blank" rel="noopener noreferrer"><span lang="en">Play</span><span lang="zh">进入金库</span></a>
   <div class="cue"></div>
 </header>
 
